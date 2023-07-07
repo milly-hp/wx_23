@@ -1,0 +1,55 @@
+import time
+import glob
+
+import time
+import pandas as pd
+import os
+import glob
+import string
+import time
+import matplotlib.pyplot as plt
+import numpy as np
+import os.path
+import os.path
+import random
+x = random.randint(1,1000)
+
+files = glob.glob("BLM_R5IM_Data/cycle" + '/*.csv')
+
+
+
+#code to open file goes here
+start_time = time.time()
+
+#read speed test goes here
+datalist = []
+for x in range(len(files)):
+    input_data = pd.read_csv(files[x])
+    dataframe = input_data.drop(columns = input_data.columns[0]).to_numpy()
+    print(dataframe)
+    datalist.append(dataframe)
+
+end_time = time.time()
+total_time = (round(end_time - start_time, 11))
+readtime = total_time
+
+start_time = time.time()
+   
+#Write speed test goes here
+save_path = 'C:\\Users\\ihx49813\\Documents\\testdata'
+name_of_file = ("datafile"+str(x))
+
+completeName = os.path.join(save_path, name_of_file+".DAT")         
+file1 = open(completeName, "w")
+toFile = str(datalist)
+print(datalist)
+file1.write(toFile)
+file1.close()
+
+
+end_time = time.time()
+total_time = (round(end_time - start_time, 11))
+print('Results:')
+print()
+print('Read Time:',readtime)
+print('Write Time:',total_time)

@@ -1,0 +1,229 @@
+from matplotlib import pyplot as plt
+import numpy as np
+from mpl_toolkits.mplot3d import axes3d
+import math
+import glob
+
+files = glob.glob("BLM_R5IM_Data/cycle" + '/*.csv')
+selected_file = files[0]
+input_data = pd.read_csv(selected_file)
+dataframe = input_data.drop(columns = input_data.columns[0]).to_numpy()
+
+y = 
+z = dataframe[0]
+                   
+def waterfall(y,z):
+#Setting base and size
+    fig = plt.figure(figsize = (50,50))
+    ax = fig.add_subplot(1, 2, 1, projection='3d')
+#Labelling axis
+    ax.set_xlabel('Time', labelpad=10)
+    ax.set_ylabel('Individual BLM', labelpad=10)
+    ax.set_zlabel('BLM Signal', labelpad=10)
+    ax.set_title('Wireframe Plot')
+#Settingaxis
+    n = 1
+    x_values = np.linspace(-5, 5, n)
+    y_values = np.linspace(-5, 5, n)
+    X, Y = np.meshgrid(x_values, y_values)
+    ax.set_xlim(-0.5, 10.5)
+    ax.set_ylim(np.amin(z), np.amax(z))
+    ax.set_zlim(np.amin(y), np.amax(y))
+#Plottng points
+    x_1 = np.linspace(-0.5, 10.5, 2200)
+    x = [x_1]
+#Plot
+    ax.plot_wireframe(x,y,z)
+
+waterfall(y,z)
+plt.show()
+
+#y axis - test data
+p = fetch_stored_data(0, None, True)
+
+#Start of function
+def waterfall(y):
+    x_data = np.linspace(-.5, 10.5, 2200)
+    blm_iterator_list = np.linspace(1,38,39, dtype=int)
+    #Graph colours
+    colors = ['r', 'g', 'b', 'y']
+    yticks = [3, 2, 1, 0]
+    for c, k in zip(colors, yticks):
+        print (c,k)
+        
+    blm_iterator_list = np.linspace(1,38,39, dtype=int)
+
+    fig = plt.figure(figsize=(10,11), tight_layout = True)
+    ax = fig.add_subplot(projection='3d')
+
+
+    x_data = np.linspace(-.5, 10.5, 2200)
+    for i in blm_iterator_list:
+    
+    # fetch_stored_data(n, None, False) = R5IM loss data, n = glob file index not BLM index
+    # fetch_stored_data(n, None, True) = cycle data, n = glob file index not BLM index
+    #y data variable
+        y=p[i]
+        ax.plot(x_data,y , zs=i, zdir='y', alpha=0.8)
+    
+#ax.set_ylim(2,5)
+#ax.set_xlim(-0.5, 10.5);
+#ax.set_zlim(-0.01, 0.05);
+    plt.title('All BLMs for in-cycle data')
+    plt.xlabel('Time (ms)')
+    plt.ylabel('Signal Index')
+    ax.set_zlabel('BLM Signal (Volts)')
+#End of function
+
+waterfall(y)
+plt.show()
+
+
+import glob
+import pandas as pd
+import random
+import paho.mqtt.client as mqtt
+import string
+import time
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import numpy as np  In [4]:  def fetch_stored_data(index=0, folder=None, cycle=True):
+    
+    if folder is None:
+        if cycle:
+            folder = './BLM_R5IM_Data/cycle/'
+        else:
+            folder = './BLM_R5IM_Data/R5IM_loss/'
+    
+    if folder[-1] != '/': folder += '/'        
+        
+    input_data = pd.read_csv(glob.glob(folder + '*.csv')[index])
+    return input_data.drop(columns = input_data.columns[0]).to_numpy()  In [5]:  ls  Out [5]:   Volume in drive C is Windows
+ Volume Serial Number is B653-B683
+
+ Directory of C:\Users\yjk94987\work experience. STORE EVERYTHING HERE HELGA
+
+03/07/2023  10:12    <DIR>          .
+03/07/2023  10:12    <DIR>          ..
+30/06/2023  10:15    <DIR>          .ipynb_checkpoints
+28/06/2023  15:59               824 3d waterfall cart.py
+30/06/2023  09:29    <DIR>          BLM_R5IM_Data
+28/06/2023  11:08        25,426,160 python-3.11.4-amd64 (4).exe
+28/06/2023  11:45               697 TRIAL NO2 W GRAPHS.py
+28/06/2023  11:06               822 trials w graphs.py
+30/06/2023  10:13                72 Untitled.ipynb
+30/06/2023  09:38             1,523 waterfall graph-final.py
+28/06/2023  11:54                 0 waterfall plot.py
+03/07/2023  09:41         1,061,672 Waterfall-Plot-Actual-Juypter.ipynb
+28/06/2023  17:00               357 wf 2.py
+03/07/2023  10:12             1,118 Working Waterfall Function.py
+              10 File(s)     26,493,245 bytes
+               4 Dir(s)  412,822,306,816 bytes free
+ In [6]:  fetch_stored_data(2, None, False)  Out [6]:  array([[-4.99939013e+00, -4.99939013e+00, -4.99939013e+00, ...,
+        -4.99939013e+00, -4.99939013e+00, -4.99939013e+00],
+       [-5.48999989e-03, -5.48999989e-03, -4.87999991e-03, ...,
+        -3.04999994e-03, -3.65999993e-03, -2.43999995e-03],
+       [ 1.21999998e-03,  1.21999998e-03,  1.82999996e-03, ...,
+         1.09900003e-02,  6.70999987e-03,  7.31999986e-03],
+       ...,
+       [ 1.82999996e-03, -1.82999996e-03,  0.00000000e+00, ...,
+         6.09999988e-04,  3.04999994e-03,  1.21999998e-03],
+       [-1.82999996e-03,  3.04999994e-03,  1.82999996e-03, ...,
+         3.65999993e-03,  2.43999995e-03,  1.21999998e-03],
+       [ 5.06599993e-02,  5.18799983e-02,  5.37099987e-02, ...,
+        -1.04979999e-01, -1.04979999e-01, -1.05590001e-01]]) In [7]:  fetch_stored_data()  Out [7]:  array([[-4.99939013e+00, -4.99939013e+00, -4.99939013e+00, ...,
+        -4.99939013e+00, -4.99939013e+00, -4.99939013e+00],
+       [-6.70999987e-03, -4.87999991e-03, -4.26999992e-03, ...,
+        -5.48999989e-03, -4.87999991e-03, -4.26999992e-03],
+       [-3.04999994e-03,  6.09999988e-04,  1.21999998e-03, ...,
+         4.26999992e-03,  4.26999992e-03,  6.09999988e-04],
+       ...,
+       [-3.04999994e-03,  1.21999998e-03,  2.43999995e-03, ...,
+         2.43999995e-03, -1.21999998e-03,  0.00000000e+00],
+       [-1.21999998e-03, -1.21999998e-03,  6.09999988e-04, ...,
+        -6.70999987e-03, -4.87999991e-03, -4.87999991e-03],
+       [ 3.53999995e-02,  3.53999995e-02,  3.60100009e-02, ...,
+         2.31899992e-02,  2.31899992e-02,  2.31899992e-02]]) In [11]:   
+colors = ['r', 'g', 'b', 'y']
+yticks = [3, 2, 1, 0]
+for c, k in zip(colors, yticks):
+    print (c,k)
+
+x_data = np.linspace(-.5, 10.5, 2200)
+blm_iterator_list = np.linspace(1,38,39, dtype=int)
+
+fig = plt.figure(figsize=(10,11), tight_layout = True)
+ax = fig.add_subplot(projection='3d')
+
+for i in blm_iterator_list:
+    
+    # fetch_stored_data(n, None, False) = R5IM loss data, n = glob file index not BLM index
+    # fetch_stored_data(n, None, True) = cycle data, n = glob file index not BLM index
+    ax.plot(x_data, fetch_stored_data(0, None, True)[i], zs=i, zdir='y', alpha=0.6)
+    
+#ax.set_ylim(2,5)
+#ax.set_xlim(-0.5, 10.5);
+#ax.set_zlim(-0.01, 0.05);
+plt.title('All BLMs for in-cycle data')
+plt.xlabel('Time (ms)')
+plt.ylabel('Signal Index')
+ax.set_zlabel('BLM Signal (Volts)')
+
+#Text(0.5, 0, 'BLM Signal (Volts)')  Out [11]:  r 3
+g 2
+b 1
+y 0
+ Out [11]:  Text(0.5, 0, 'BLM Signal (Volts)')    In [9]:  #y axis - test data
+p = fetch_stored_data(0, None, True)
+
+#Start of function
+def waterfall(y):
+    x_data = np.linspace(-.5, 10.5, 2200)
+    blm_iterator_list = np.linspace(1,38,39, dtype=int)
+    #Graph colours
+    colors = ['r', 'g', 'b', 'y']
+    yticks = [3, 2, 1, 0]
+    for c, k in zip(colors, yticks):
+        print (c,k)
+        
+    blm_iterator_list = np.linspace(1,38,39, dtype=int)
+
+    fig = plt.figure(figsize=(10,11), tight_layout = True)
+    ax = fig.add_subplot(projection='3d')
+
+
+    x_data = np.linspace(-.5, 10.5, 2200)
+    for i in blm_iterator_list:
+    
+    # fetch_stored_data(n, None, False) = R5IM loss data, n = glob file index not BLM index
+    # fetch_stored_data(n, None, True) = cycle data, n = glob file index not BLM index
+    #y data variable
+        y=p[i]
+        ax.plot(x_data,y , zs=i, zdir='y', alpha=0.8)
+    
+#ax.set_ylim(2,5)
+#ax.set_xlim(-0.5, 10.5);
+#ax.set_zlim(-0.01, 0.05);
+    plt.title('All BLMs for in-cycle data')
+    plt.xlabel('Time (ms)')
+    plt.ylabel('Signal Index')
+    ax.set_zlabel('BLM Signal (Volts)')
+#End of function
+
+    
+#Text(0.5, 0, 'BLM Signal (Volts)')
+waterfall(y)
+plt.show()  Out [9]:   ---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+Cell In[9], line 40
+     35     ax.set_zlabel('BLM Signal (Volts)')
+     36 #End of function
+     37 
+     38     
+     39 #Text(0.5, 0, 'BLM Signal (Volts)')
+---> 40 waterfall(y)
+     41 plt.show()
+
+NameError: name 'y' is not defined
+
+   

@@ -1,0 +1,25 @@
+import time
+
+#code to open file goes here
+#read speed test
+start_time = time.time()
+
+#Code to read file x10
+#time stalling code to test timer
+for x in range(1,1000000):
+    y = x**2
+
+end_time = time.time()
+total_time = (round(end_time - start_time, 11))
+print('Read Time:',total_time)
+
+#write speed test
+start_time = time.time()
+
+#time stalling code to test timer
+for x in range(1,1000000):
+    y = x**2
+    
+end_time = time.time()
+total_time = (round(end_time - start_time, 11))
+print('Write Time:',total_time)
